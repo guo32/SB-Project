@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+	<!-- 관리자 로그인, 보안 -->
+	<security-role>
+		<description>관리자</description>
+		<role-name>admin</role-name>
+	</security-role>
+	<security-constraint>
+		<display-name>SB Security</display-name>
+		<web-resource-collection>
+			<web-resource-name>SB</web-resource-name>
+			<description></description>
+			<url-pattern>/edit-bakery.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>권한 관리자명</description>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.jsp</form-login-page>
+			<form-error-page>/login-failed.jsp</form-error-page>
+		</form-login-config>
+	</login-config>
+	
+	<!-- 에러 페이지 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/exception-no-page.jsp</location>
+	</error-page>
+	
+	<!-- 로그 기록 -->
+	<filter>
+		<filter-name>LogFileFilter</filter-name>
+		<filter-class>filter.LogFileFilter</filter-class>
+		<init-param>
+			<param-name>filename</param-name>
+			<param-value>c:\\logs\\sumbbang.log</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>LogFileFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<servlet>
+		<servlet-name>ReviewController</servlet-name>
+		<servlet-class>mvc.controller.ReviewController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReviewController</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+</web-app>
